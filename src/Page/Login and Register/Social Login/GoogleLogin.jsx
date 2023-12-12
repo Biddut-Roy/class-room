@@ -1,8 +1,9 @@
 import { FcGoogle } from "react-icons/fc";
-import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
-import usePublicAxios from "../../../Hooks/usePublicAxios";
+import axios from "axios";
+import useAuth from "../../../Hooks/useAuth";
+
 
 
 
@@ -15,7 +16,6 @@ const GoogleLogin = () => {
     const path = location.pathname
     const parts = path.split("/");
     const pathName = parts.length > 1 ? parts[1] : null;
-    const publicAxios = usePublicAxios()
     const handelGoogleLogin = () => {
         googleEntry()
             .then((result) => {
@@ -42,7 +42,7 @@ const GoogleLogin = () => {
                                   `
                                 }
                             });
-                publicAxios.post("/users", userData)
+                axios.post("http://localhost:5000/users", userData)
                     .then(() => {
 
                         // if (result.data) {
@@ -55,8 +55,9 @@ const GoogleLogin = () => {
     }
 
     return (
-        <div onClick={handelGoogleLogin} className=" my-5">
-            <button className=" btn flex">
+        <div onClick={handelGoogleLogin} className=" flex flex-col justify-center items-center w-1/3 mx-auto text-center my-5">
+            <p>Please Enter and join Class Room</p>
+            <button className="btn flex">
                 <FcGoogle />
                 Google
             </button>

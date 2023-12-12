@@ -16,22 +16,10 @@ const Authprovider = ({ children }) => {
     const [loading, setLoading] = useState(true)
 
 
-    const createUser = (email, password) => {
-        setLoading(true)
-        return createUserWithEmailAndPassword(auth, email, password)
-    }
-
     const googleEntry = () => {
         return signInWithPopup(auth, provider)
     }
-    const entryUser = (email, password) => {
-        setLoading(true)
-        return signInWithEmailAndPassword(auth, email, password)
-    }
-    const logOut = () => {
-        setLoading(true)
-        return signOut(auth)
-    }
+
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -42,15 +30,10 @@ const Authprovider = ({ children }) => {
             unsubscribe();
         }
 
-    }, [axiosPublic])
+    }, [])
 
-    const info = {
-        user,
-        loading,
-        logOut,
-        createUser,
-        googleEntry,
-        entryUser,
+    const info = { 
+        googleEntry
     }
     return (
         <AuthContext.Provider value={info}>
