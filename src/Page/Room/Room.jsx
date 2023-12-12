@@ -4,10 +4,10 @@ import { useParams } from "react-router-dom";
 
 const Room = () => {
     const { roomID } = useParams()
-
+    
     const myMeeting = async (element) => {
-        const appID = 1835550678
-        const serverSecret = "debf93213d3fbb08442a6d9e2971f10a"
+        const appID = parseInt(import.meta.env.VITE_appID) 
+        const serverSecret = import.meta.env.VITE_serverSecret
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, Date.now().toString(), "biddut");
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
