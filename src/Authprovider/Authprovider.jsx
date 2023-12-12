@@ -1,9 +1,9 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { GoogleAuthProvider } from "firebase/auth";
-import usePublicAxios from "../Hooks/usePublicAxios";
 import auth from "../Firebase/Firebase.int";
+
 
 
 
@@ -14,7 +14,7 @@ const Authprovider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
-    const axiosPublic = usePublicAxios()
+
 
     const createUser = (email, password) => {
         setLoading(true)
@@ -33,31 +33,10 @@ const Authprovider = ({ children }) => {
         return signOut(auth)
     }
 
-    const userUpdateProfile = (name, photoURL) => {
-        return updateProfile(auth.currentUser, {
-            displayName: name, photoURL: photoURL
-        })
-    }
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setUser(user);
-            const userinfo = {
-                email: user?.email,
-            }
-            if (auth.currentUser) {
-                axiosPublic.post('/jwt', userinfo)
-                    .then(res => {
-                        if (res.data.token) {
-                            localStorage.setItem('access-token', res.data.token);
-                            setLoading(false)
-                        }
-                    })
-            }
-            else{
-                localStorage.removeItem('access-token')
-                setLoading(false)
-            }
-            
+            setLoading(false)
         })
         return () => {
             unsubscribe();
@@ -72,7 +51,6 @@ const Authprovider = ({ children }) => {
         createUser,
         googleEntry,
         entryUser,
-        userUpdateProfile
     }
     return (
         <AuthContext.Provider value={info}>
