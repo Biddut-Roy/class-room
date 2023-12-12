@@ -33,7 +33,9 @@ const Authprovider = ({ children }) => {
     }, [])
 
     const info = { 
-        googleEntry
+        googleEntry,
+        user,
+        loading
     }
     return (
         <AuthContext.Provider value={info}>

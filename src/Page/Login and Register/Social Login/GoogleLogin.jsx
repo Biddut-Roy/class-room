@@ -8,6 +8,7 @@ import useAuth from "../../../Hooks/useAuth";
 
 
 
+
 const GoogleLogin = () => {
     const { googleEntry } = useAuth()
     const navigate = useNavigate()
@@ -22,8 +23,8 @@ const GoogleLogin = () => {
                 const userData = {
                     name: result.user?.displayName,
                     email: result.user?.email
-
                 }
+
                 navigate(from, { replace: true });
                             Swal.fire({
                                 title: `${pathName} successfully `,
@@ -42,25 +43,25 @@ const GoogleLogin = () => {
                                   `
                                 }
                             });
-                axios.post("http://localhost:5000/users", userData)
+                axios.patch("http://localhost:5000/users", userData)
                     .then(() => {
-
-                        // if (result.data) {
-                            
-                        // }
-
+                        if (result.data) {
+                            console.log(result.data);
+                        }
                     });
 
             })
     }
 
     return (
-        <div onClick={handelGoogleLogin} className=" flex flex-col justify-center items-center w-1/3 mx-auto text-center my-5">
-            <p>Please Enter and join Class Room</p>
-            <button className="btn flex">
+        <div className=" mt-28">
+            <div onClick={handelGoogleLogin} className=" flex flex-col justify-center items-center w-1/3 mx-auto text-center my-5">
+            <p>Connect With Google Now</p>
+            <button className="btn flex mt-3">
                 <FcGoogle />
                 Google
             </button>
+        </div>
         </div>
     );
 };
